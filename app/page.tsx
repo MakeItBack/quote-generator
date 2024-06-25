@@ -14,7 +14,7 @@ export default function Home() {
 
   useEffect(() => {
     setTotal(coRef.current.total());
-    setCartContents(coRef.current.getCart());
+    setCartContents([...coRef.current.getCart()]);
   }, []);
 
   useEffect(() => {
@@ -25,13 +25,12 @@ export default function Home() {
       coRef.current = new Checkout(pricelist, null);
     }
     setTotal(coRef.current.total());
-    setCartContents(coRef.current.getCart());
+    setCartContents([...coRef.current.getCart()]);
   }, [selectedDeal]);
 
   function handleChange(event: React.ChangeEvent) {
     const target = event.target as HTMLInputElement;
     const dealId = target.value;
-    console.log("Deal ID: ", dealId);
     setSelectedDeal(dealId);
   }
 
@@ -40,7 +39,7 @@ export default function Home() {
     const itemId = target.id;
     coRef.current.add(itemId);
     setTotal(coRef.current.total());
-    setCartContents(coRef.current.getCart());
+    setCartContents([...coRef.current.getCart()]);
   }
 
   function getPricingRules(dealId: string) {
