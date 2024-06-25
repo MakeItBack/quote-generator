@@ -23,6 +23,20 @@ export default class Checkout {
   }
 
   total() {
-    return this.cart.reduce((total, product) => total + product.price * product.quantity, 0);
+    if (this.pricingRules?.discounts[0]) {
+      // Discounts exist, apply as needed
+      return this.cart.reduce((total, product) => {
+        const discounts = this.pricingRules.discounts;
+        const discount = discounts.find((discount) => discount.productId === product.id);
+        if (!discount) {
+          return total + product.price * product.quantity;
+        } else {
+          return total + discount.offer(product.price, product.quantity);
+        }
+      }, 0);
+    } else {
+      // Apply base pricelist
+      return this.cart.reduce((total, product) => total + product.price * product.quantity, 0);
+    }
   }
 }

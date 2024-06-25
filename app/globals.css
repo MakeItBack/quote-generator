@@ -32,8 +32,9 @@ h5 {
 }
 
 button,
-input {
-  border: 1px solid black;
+input,
+select {
+  border: 1px solid #707070;
   border-radius: 5px;
   padding: 5px;
   min-width: 100px;
