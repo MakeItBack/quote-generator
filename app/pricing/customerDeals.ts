@@ -1,7 +1,7 @@
 import deals from "./dealLib";
 import { Deal } from "@/app/types";
 
-export function getPricingRules(dealId: string) {
+export function getPricingRules(dealId: string): Deal | undefined {
   return customerDeals.find((deal) => deal.dealId === dealId);
 }
 

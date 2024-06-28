@@ -1,11 +1,19 @@
+import { PriceListItem, CartItem, Deal } from "@/app/types";
+
 export default class Checkout {
-  constructor(pricelist, pricingRules) {
+  cart: CartItem[];
+  pricelist: PriceListItem[];
+  pricingRules: Deal | undefined;
+
+  constructor(pricelist: PriceListItem[], pricingRules: Deal | undefined) {
     this.cart = [];
     this.pricelist = pricelist;
-    this.pricingRules = pricingRules;
+    if (pricingRules) {
+      this.pricingRules = pricingRules;
+    }
   }
 
-  add(id) {
+  add(id: string): void {
     // find the cart item with the product id passed in
     const cartItem = this.cart.find((item) => item.id === id);
 
@@ -14,19 +22,21 @@ export default class Checkout {
     } else {
       // Add the item to the cart
       const pricelistItem = this.pricelist.find((item) => item.id === id);
-      this.cart.push({ ...pricelistItem, quantity: 1 });
+      if (pricelistItem) {
+        this.cart.push({ ...pricelistItem, quantity: 1 });
+      }
     }
   }
 
-  getCart() {
+  getCart(): CartItem[] {
     return this.cart;
   }
 
-  total() {
+  total(): number {
     if (this.pricingRules?.discounts[0]) {
       // Discounts exist, apply as needed
       return this.cart.reduce((total, product) => {
-        const discounts = this.pricingRules.discounts;
+        const discounts = this.pricingRules!.discounts;
         const discount = discounts.find((discount) => discount.productId === product.id);
         if (!discount) {
           return total + product.price * product.quantity;

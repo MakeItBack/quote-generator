@@ -6,7 +6,7 @@ import { customerDeals, getPricingRules } from "@/app/pricing/customerDeals";
 import { CartItem } from "./types";
 
 export default function Home() {
-  const coRef = useRef(new Checkout(pricelist, null));
+  const coRef = useRef(new Checkout(pricelist, undefined));
 
   const [total, setTotal] = useState<number>(0);
   const [cartContents, setCartContents] = useState<CartItem[]>([]);
@@ -22,7 +22,7 @@ export default function Home() {
       const pricingRules = getPricingRules(selectedDeal);
       coRef.current = new Checkout(pricelist, pricingRules);
     } else {
-      coRef.current = new Checkout(pricelist, null);
+      coRef.current = new Checkout(pricelist, undefined);
     }
     setTotal(coRef.current.total());
     setCartContents([...coRef.current.getCart()]);

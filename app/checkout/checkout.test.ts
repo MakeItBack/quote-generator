@@ -4,7 +4,7 @@ import { pricelist } from "@/app/pricing/pricelist";
 import { getPricingRules } from "@/app/pricing/customerDeals";
 
 describe("Checkout Setup", () => {
-  const testCheckout = new Checkout(pricelist, []);
+  const testCheckout = new Checkout(pricelist, undefined);
   it("Has a pricelist", () => {
     expect(testCheckout.pricelist).toBe(pricelist);
   });
