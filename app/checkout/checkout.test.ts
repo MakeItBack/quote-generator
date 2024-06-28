@@ -6,8 +6,10 @@ import { getPricingRules } from "@/app/pricing/customerDeals";
 describe("Checkout Setup", () => {
   const testCheckout = new Checkout(pricelist, []);
   it("Has a pricelist", () => {
-    const testCheckout = new Checkout(pricelist, []);
     expect(testCheckout.pricelist).toBe(pricelist);
+  });
+  it("Has an empty cart when initialised", () => {
+    expect(testCheckout.cart).toEqual([]);
   });
 });
 
