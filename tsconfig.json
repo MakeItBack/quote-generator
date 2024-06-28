@@ -22,5 +22,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/checkout.js"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "jest.config.ts", "**/*.test.ts", "**/*.spec.ts"]
 }
