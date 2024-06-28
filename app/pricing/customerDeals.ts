@@ -1,7 +1,11 @@
 import deals from "./dealLib";
-import { Deal } from "./types";
+import { Deal } from "@/app/types";
 
-const customerDeals: Deal[] = [
+export function getPricingRules(dealId: string) {
+  return customerDeals.find((deal) => deal.dealId === dealId);
+}
+
+export const customerDeals: Deal[] = [
   {
     dealName: "Base Pricing",
     dealId: "0",
@@ -27,5 +31,3 @@ const customerDeals: Deal[] = [
     ],
   },
 ];
-
-export default customerDeals;

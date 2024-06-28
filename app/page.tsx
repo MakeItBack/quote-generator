@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
-import Checkout from "./checkout";
-import { pricelist } from "./pricelist";
-import customerDeals from "./customerDeals";
+import Checkout from "@/app/checkout/checkout";
+import { pricelist } from "@/app/pricing/pricelist";
+import { customerDeals, getPricingRules } from "@/app/pricing/customerDeals";
 import { CartItem } from "./types";
 
 export default function Home() {
@@ -40,10 +40,6 @@ export default function Home() {
     coRef.current.add(itemId);
     setTotal(coRef.current.total());
     setCartContents([...coRef.current.getCart()]);
-  }
-
-  function getPricingRules(dealId: string) {
-    return customerDeals.find((deal) => deal.dealId === dealId);
   }
 
   return (

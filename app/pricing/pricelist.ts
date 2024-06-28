@@ -1,4 +1,4 @@
-import { PriceListItem } from "./types";
+import { PriceListItem } from "@/app/types";
 
 export const pricelist: PriceListItem[] = [
   {
