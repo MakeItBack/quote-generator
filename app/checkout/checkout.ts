@@ -27,6 +27,10 @@ export default class Checkout {
       }
     }
   }
+  // Allows easy copying of an instance of the class
+  clone() {
+    return Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+  }
 
   getCart(): CartItem[] {
     return this.cart;

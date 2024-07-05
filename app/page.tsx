@@ -27,16 +27,7 @@ export default function Home() {
   function handleClick(event: React.MouseEvent) {
     const target = event.target as HTMLButtonElement;
     const itemId = target.id;
-    // Clone the current cart contents
-    const currentCart = checkout.getCart();
-    const newCheckout = new Checkout(pricelist, checkout.pricingRules);
-    // Add existing cart contents to the new Checkout instance
-    currentCart.forEach((item) => {
-      for (let i = 0; i < item.quantity; i++) {
-        newCheckout.add(item.id);
-      }
-    });
-    // Add the new item to the cart
+    const newCheckout = checkout.clone();
     newCheckout.add(itemId);
     setCheckout(newCheckout);
   }
