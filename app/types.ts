@@ -8,7 +8,6 @@ export interface PriceListItem {
 
 export interface CartItem extends PriceListItem {
   quantity: number;
-  discountedTotal?: number;
 }
 
 interface Discount {

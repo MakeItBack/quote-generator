@@ -3,29 +3,19 @@ import React, { useEffect, useState, useRef } from "react";
 import Checkout from "@/app/checkout/checkout";
 import { pricelist } from "@/app/pricing/pricelist";
 import { customerDeals, getPricingRules } from "@/app/pricing/customerDeals";
-import { CartItem } from "./types";
 
 export default function Home() {
-  const coRef = useRef(new Checkout(pricelist, undefined));
-
-  const [total, setTotal] = useState<number>(0);
-  const [cartContents, setCartContents] = useState<CartItem[]>([]);
+  const [checkout, setCheckout] = useState<Checkout>(new Checkout(pricelist, undefined));
   const [selectedDeal, setSelectedDeal] = useState<string>("0");
 
   useEffect(() => {
-    setTotal(coRef.current.total());
-    setCartContents([...coRef.current.getCart()]);
-  }, []);
-
-  useEffect(() => {
+    // Reset the checkout instance when the selected deal changes
     if (selectedDeal) {
       const pricingRules = getPricingRules(selectedDeal);
-      coRef.current = new Checkout(pricelist, pricingRules);
+      setCheckout(new Checkout(pricelist, pricingRules));
     } else {
-      coRef.current = new Checkout(pricelist, undefined);
+      setCheckout(new Checkout(pricelist, undefined));
     }
-    setTotal(coRef.current.total());
-    setCartContents([...coRef.current.getCart()]);
   }, [selectedDeal]);
 
   function handleChange(event: React.ChangeEvent) {
@@ -37,9 +27,18 @@ export default function Home() {
   function handleClick(event: React.MouseEvent) {
     const target = event.target as HTMLButtonElement;
     const itemId = target.id;
-    coRef.current.add(itemId);
-    setTotal(coRef.current.total());
-    setCartContents([...coRef.current.getCart()]);
+    // Clone the current cart contents
+    const currentCart = checkout.getCart();
+    const newCheckout = new Checkout(pricelist, checkout.pricingRules);
+    // Add existing cart contents to the new Checkout instance
+    currentCart.forEach((item) => {
+      for (let i = 0; i < item.quantity; i++) {
+        newCheckout.add(item.id);
+      }
+    });
+    // Add the new item to the cart
+    newCheckout.add(itemId);
+    setCheckout(newCheckout);
   }
 
   return (
@@ -69,6 +68,7 @@ export default function Home() {
           Refresh page or change pricelist to restart
         </p>
         {pricelist.map((item) => {
+          const cartContents = checkout.getCart();
           const foundItem = cartContents.find((cartItem) => cartItem.id === item.id);
 
           return (
@@ -83,7 +83,7 @@ export default function Home() {
             </div>
           );
         })}
-        <h3 className="text-right my-6">Total ${total}</h3>
+        <h3 className="text-right my-6">Total ${checkout.total()}</h3>
       </div>
     </main>
   );

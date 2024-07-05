@@ -1,7 +1,7 @@
 import { describe, it, expect, jest } from "@jest/globals";
 import Checkout from "./checkout";
-import { pricelist } from "@/app/pricing/pricelist";
-import { getPricingRules } from "@/app/pricing/customerDeals";
+import { pricelist } from "../pricing/pricelist";
+import { getPricingRules } from "../pricing/customerDeals";
 
 describe("Checkout Setup", () => {
   const testCheckout = new Checkout(pricelist, undefined);
